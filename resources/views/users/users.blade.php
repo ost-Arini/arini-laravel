@@ -16,11 +16,12 @@
                 <table cellpadding='8'>
                     <thead class="thead-dark">
                         <tr>
-                            <th colspan="2">ユーザID</th>
-                            <th>ユーザ名</th>
+                            <th colspan="2">ユーザ名</th>
+                            <th>名前</th>
                             <th>メール</th>
+                            <th>生年月日</th>
                             <th>性別</th>
-                            <th></th>
+                            {{-- <th></th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -28,11 +29,12 @@
                     @foreach($userlist as $user)
                         <tr>
                             {{-- {{  }} ini mirip dengan echo --}}
-                            <th scope="row"> {{ $user['user_id'] }}</th>
-                            <td colspan="2"> {{ $user['user_name'] }} </td>
+                            <th scope="row"> {{ $user['user_name'] }}</th>
+                            <td colspan="2"> {{ $user['real_name'] }} </td>
                             <td> {{ $user['email'] }}</td>
+                            <td> {{ $user['birthday'] }}</td>
                             <td> {{ $user['gender']== 1 ? '男性' : '女性' }}</td>
-                            <td><a class="btn btn-info" id="update" href="">更新</a></td>
+                            {{-- <td><a class="btn btn-info" id="update" href="">更新</a></td> --}}
                         </tr>
                     @endforeach
                     </tbody>

@@ -26,6 +26,16 @@ Route::get('/users', 'UsersController@index')->name('users')->middleware('auth')
 // Route::get('/users/profile', function(){
 //     return view('users/profile');
 // });
-Route::get('/profile', 'UsersController@profile')->name('profile');
+
+//nampilin data user di profile page
 Route::get('/profile/{users}', 'UsersController@show');
-// Route::get('/app', 'UsersController@show');
+
+//nampilin data user di edit page
+Route::get('/edit/{users}', 'UsersController@profile_edit');
+
+//nampilin data user di confirm page
+Route::get('/confirm/{user_id}', 'UsersController@profile_edit');
+//lempar data user ke confirm page
+Route::post('/confirm/{user_id}', 'UsersController@profile_edit')->name('confirm');
+//lempar data ke success page
+Route::post('/success/{user_id}', 'UsersController@profile_edit_success')->name('success');

@@ -28,8 +28,35 @@ class UsersController extends Controller
     public function show(Users $users){
         //di compact dijadiin data
         return view('users.profile', compact('users'));
-        // $users = Auth::users();
-        // return view('layouts.app', compact('users'));
-        // return $users;
     }
+
+    // public function profile_edit(Users $users){
+    //     return view('users.profileedit', compact('users'));
+    // }
+
+    public function profile_edit(Request $request, $user_id) {
+        if ($request->isMethod('get')) 
+        {
+            //view profile page only
+            $user_data = Users::where('user_id', $user_id)->get()->toArray();
+            return view('users/edit', ['user_id'=>$user_id, 'userdata'=>$user_data]);
+        } 
+        if($request->isMethod('post')) {
+            // if post
+            //disni baru update user]
+            // $user_update = DB::table('users')->where('id', 1)->update();
+            $input = $request->input();
+            $user_data = Users::where('user_id', $user_id)->get()->toArray();
+            return view('users/confirm', ['user_id'=>$user_id, 'input'=>$input, 'userdata'=>$user_data]);
+            // return redirect()->route('confirm', ['user_id'=>$user_id, 'input'=>$input]);
+            // return view('users/confirm');
+        }
+    }
+    //confirmation abis di masukin usersnya
+    public function profile_edit_confirm(Request $request, $user_id) {
+    //post
+    }
+
+   
 }
+
