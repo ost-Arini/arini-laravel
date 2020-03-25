@@ -17,14 +17,15 @@
     @yield('title')
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
+    <script src="{{ asset('js/app.js') }}" ></script>
+    <script src="{{ asset('js/jquery.dataTables.min.js')}}" defer></script>
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/jquery.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 </head>
 <body>
@@ -50,17 +51,17 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('ログイン') }}</a>
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('サインアップ') }}</a>
                                 </li>
                             @endif
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->user_name }} <span class="caret"></span>
+                                    こんにちは {{ Auth::user()->user_name }} <span class="caret"></span>
                                 </a>
                                 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -83,21 +84,21 @@
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{ 'Products' }}
+                                    {{ '商品' }}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                  <a class="dropdown-item" href="">{{ 'Submit New' }}</a>
-                                  <a class="dropdown-item" href="">{{ 'All Products' }}</a>
-                                  <a class="dropdown-item" href="">{{ 'Your Products' }}</a>
+                                  <a class="dropdown-item" href="{{ route('submitnew') }}">{{ '新規登録' }}</a>
+                                  <a class="dropdown-item" href="{{ route('allproducts') }}">{{ '全商品' }}</a>
+                                  <a class="dropdown-item" href="{{ route('yourproducts') }}">{{ '履歴商品' }}</a>
                                 </div>
                               </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{ 'Transaction' }}
+                                    {{ '取引' }}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                  <a class="dropdown-item" href="">{{ 'New Transaction' }}</a>
-                                  <a class="dropdown-item" href="">{{ 'Transaction List' }}</a>
+                                  <a class="dropdown-item" href="">{{ '新規登録' }}</a>
+                                  <a class="dropdown-item" href="">{{ '履歴取引' }}</a>
                                 </div>
                               </li>
                         @endguest

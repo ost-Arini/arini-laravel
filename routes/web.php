@@ -27,15 +27,30 @@ Route::get('/users', 'UsersController@index')->name('users')->middleware('auth')
 //     return view('users/profile');
 // });
 
+//USERS
 //nampilin data user di profile page
 Route::get('/profile/{users}', 'UsersController@show');
-
 //nampilin data user di edit page
 Route::get('/edit/{users}', 'UsersController@profile_edit');
-
 //nampilin data user di confirm page
 Route::get('/confirm/{user_id}', 'UsersController@profile_edit');
 //lempar data user ke confirm page
 Route::post('/confirm/{user_id}', 'UsersController@profile_edit')->name('confirm');
 //lempar data ke success page
-Route::post('/success/{user_id}', 'UsersController@profile_edit_success')->name('success');
+Route::post('/success/{user_id}', 'UsersController@profile_edit_success')->name('editsuccess');
+//delete user
+Route::post('/delete','UsersController@confirmdelete')->name('deletesuccess');
+
+
+
+//PRODUCTS
+//submit new
+Route::get('/submit', 'ProductsController@submit')->name('submitnew');
+Route::post('/submitconfirm', 'ProductsController@submitconfirm')->name('submitconfirm');
+Route::post('/submitsuccess', 'ProductsController@submitsuccess')->name('submitsuccess');
+
+//all products
+Route::get('/all', 'ProductsController@allproducts')->name('allproducts');
+
+//your products
+Route::get('/your', 'ProductsController@yourproducts')->name('yourproducts');

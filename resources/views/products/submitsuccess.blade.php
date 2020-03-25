@@ -1,7 +1,9 @@
+{{-- {{ dd($temp_dir)}} --}}
+
 @extends('layouts.app')
 
 @section('title')
-<title>Edit Profile Page</title>
+<title>Submit New Product Page</title>
 @endsection
 
 @section('content')

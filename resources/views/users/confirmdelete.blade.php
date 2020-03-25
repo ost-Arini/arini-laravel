@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-<title>Profile Page</title>
+<title>Confirm Delete User</title>
 @endsection
 
 @section('content')
@@ -9,29 +9,29 @@
     <div class="">
         <div class="card">
             <div class="card-header">
-                <h1 class="text-center">マイページ</h1>
+                <h1 class="text-center">Confirm Delete User</h1>
             </div>
 
             <div class="card-body">
                 <table cellpadding='8'>
                     <tr>
-                        <th class="text-right">ユーザ名</th>
+                        <th class="text-right">Name</th>
                         <td> {{ $users->user_name }} </td>
                     </tr>
                     <tr>
-                        <th class="text-right">メール</th>
+                        <th class="text-right">Email</th>
                         <td> {{ $users->email }} </td>
                     </tr>
                     <tr>
-                        <th class="text-right">名前</th>
+                        <th class="text-right">Full name</th>
                         <td> {{ $users->real_name }} </td>
                     </tr>
                     <tr>
-                        <th class="text-right">生年月日</th>
+                        <th class="text-right">Birthday</th>
                         <td> {{ $users->birthday }} </td>
                     </tr>
                     <tr>
-                        <th class="text-right">性別</th>
+                        <th class="text-right">Gender</th>
                         <td> {{ $users->gender == 1 ? '男性' : '女性' }} </td>
                     </tr>
                     {{-- <tr>
@@ -39,6 +39,7 @@
                         <td><a class="btn btn-danger" id="delete" href="">削除</a></td>
                     </tr> --}}
                 </table>
+                
             </div>
         </div>
     </div>

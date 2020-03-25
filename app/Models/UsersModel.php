@@ -14,6 +14,6 @@ class UsersModel extends Model
     protected $fillable = ['user_name','email','real_name','password','birthday','gender'];
 
     public function getUserlist() {
-        return $this->select()->get()->toArray();
+        return $this->select()->where('delete_flag',0)->get()->toArray();
     }
 }
