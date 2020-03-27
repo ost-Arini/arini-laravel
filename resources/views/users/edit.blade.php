@@ -13,8 +13,8 @@
             </div>
 
             {{-- pake nama name routenya buat di action --}}
-            <form id="form" action="{{ route('confirm') }}" method="POST">
-    
+            <form id="form" action="{{ route('confirm', ['user_id'=>$user_id]) }}" method="POST">
+                {{-- {{ route('confirm') }} --}}
             @foreach ($userdata as $item)
             
             <div class="card-body">
