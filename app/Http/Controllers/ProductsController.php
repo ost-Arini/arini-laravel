@@ -13,9 +13,10 @@ use Illuminate\Support\Facades\Storage;
 class ProductsController extends Controller
 {
     public function submit() {
-        return view('products/submit');
+        $types = new Types();
+        $datatype =$types->getTypeslist();
+        return view('products/submit', ['datatype' => $datatype]);
     }
-
 
 
     public function submitconfirm(Request $request) {
@@ -24,11 +25,13 @@ class ProductsController extends Controller
         if (!file_exists($path)) {
             mkdir($path, 0777, true);
         }
+        $types = new Types();
+        $datatype =$types->getTypeslist();
         $input = $request->input();
         $filename = $request->product_name.'.'.$request->product_image->getClientOriginalExtension();
         $product_image = $request->file('product_image')->move($path, $filename);
         $laravelpath = 'upload/temp'.'/'.$filename;
-        return view('products/submitconfirm', ['input'=>$input, 'product_image'=>$product_image, 'pathlaravel'=> $laravelpath, 'product_image_name'=>$filename]);
+        return view('products/submitconfirm', ['datatype' => $datatype, 'input'=>$input, 'product_image'=>$product_image, 'pathlaravel'=> $laravelpath, 'product_image_name'=>$filename] );
     }
 
 
@@ -99,10 +102,6 @@ class ProductsController extends Controller
             $oldpath = public_path('upload\temp\\'.$request->product_image_name);
             $path =  public_path('upload\\'.$product_id.'\\'.$request->product_image_name);
             $folder =  public_path('upload\\'.$product_id);
-            //bikin folder dlu
-            // if (!file_exists($folder)) {
-            //     mkdir($folder, 0777, true);
-            // }
             //move file dari old path ke path baru
             rename($oldpath, $path);
             //foto lama masuk delete folder
@@ -119,7 +118,6 @@ class ProductsController extends Controller
         }
         $product->save();
         return redirect()->route('allproducts')->with('alert', '編集完了')->with('type', '編集');
-        // return redirect()->route('editsuccess');
     }
     
 
@@ -131,24 +129,26 @@ class ProductsController extends Controller
         return redirect()->route('allproducts')->with('alert', '削除完了')->with('type', '削除');
     }
 
-    public function yourproducts(Request $user_id) {
-        $products = Products::where('created_by_user_id', auth()->user()->user_id)->get()->toArray();
-        $products = new Products();
-        $data = $products->getProductlist();
-        return view('products/your', ['productlist'=>$data]);
-        // return view('products/your');
-    }
+    // public function yourproducts(Request $user_id) {
+    //     $products = Products::where('created_by_user_id', auth()->user()->user_id)->get()->toArray();
+    //     $products = new Products();
+    //     $data = $products->getProductlist();
+    //     return view('products/your', ['productlist'=>$data]);
+    //     // return view('products/your');
+    // }
 
     public function productsdisplay(Request $request, $product_type=NULL){
-        $type = $request->type;
+
         $products = new Products();
-        $data = $products->getProductlist();
-        $products2 = Products::where('product_type',$type)->where('delete_flag',0)->get()->toArray(); 
         $types = new Types();
         $datatype =$types->getTypeslist();
-        if($type == 0 ) {
+
+        if($request->isMethod('get')) {
+            $data = $products->getProductlist();
             return view('home', ['productlist'=>$data, 'typelist'=>$datatype]);
-        }else{
+        }if($request->isMethod('post')) {
+            $type = $request->type;
+            $products2 = $products->getProductlist($type);
             return view('home',['productlist'=>$products2, 'typelist'=>$datatype]);
         }
     }

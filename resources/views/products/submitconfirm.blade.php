@@ -1,5 +1,6 @@
 {{-- {{ dd($input)}} --}}
 {{-- {{ dd($temp_image)}} --}}
+{{-- {{ dd($datatype)}} --}}
 
 @extends('layouts.app')
 
@@ -22,16 +23,19 @@
         </div>
 
         <div class="form-group mt-5">
-            <label for="product_image">画像</label>
-            <input id="product_image" type="text" name="product_image" class="form-control" value="{{ $pathlaravel }}">
-            <input id="product_image_name" type="text" name="product_image_name" class="form-control" value="{{ $product_image_name }}">
+            <label for="product_image">画像</label><br>
+            <input id="product_image" type="hidden" name="product_image" class="form-control" value="{{ $pathlaravel }}">
+            <input id="product_image_name" type="hidden" name="product_image_name" class="form-control" value="{{ $product_image_name }}">
             <img src="{{ $pathlaravel }}" width="500">
         </div>
 
         <div class="form-group mt-5">
             <label for="product_type">商品類:</label>
-            <input id="product_type" type="text" name="product_type" class="form-control" value="<?php $realtype =  $input['product_type']  == 1 ? '新品' : 'ユーズド品';
-            echo $realtype; ?>" disabled>
+            <select id="product_type" name="product_type" class="form-control">
+                @foreach ($datatype as $type)
+                    <option name="product_type" value="{{$type['type_id']}}" {{$input['product_type'] == $type['type_id'] ? "selected" : ""}} disabled>{{$type['type_name']}}</option>
+                @endforeach  
+            </select>
             <input id="product_type" type="hidden" name="product_type" class="form-control" value="{{ $input['product_type'] }}">
         </div>
 

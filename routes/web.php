@@ -58,7 +58,14 @@ Route::post('/editconfirm/{product_id}', 'ProductsController@editproduct')->name
 Route::post('/editsuccess/{product_id}', 'ProductsController@editsuccess')->name('editsuccess');
 
 //your products
-Route::get('/your', 'ProductsController@yourproducts')->name('yourproducts');
+// Route::get('/your', 'ProductsController@yourproducts')->name('yourproducts');
 
 //homeproductdisplay
 Route::get('/home', 'ProductsController@productsdisplay')->name('home');
+Route::post('/home', 'ProductsController@productsdisplay');
+
+
+//TRANSACTIONS
+//submit new
+Route::get('/submitnew','TransactionsController@submittrans')->name('newtrans');
+Route::post('/submittransconfirm','TransactionsController@submitconfirm')->name('submittransconfirm');

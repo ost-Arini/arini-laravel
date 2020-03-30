@@ -8,7 +8,7 @@ class TypesModel extends Model
 {
     protected $table = 'types';
 
-    protected $primaryKey = 'product_type';
+    protected $primaryKey = 'type_id';
 
     public function getTypeslist() {
         return $this->select()->get()->toArray();

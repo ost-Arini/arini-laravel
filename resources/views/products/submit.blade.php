@@ -26,8 +26,9 @@
             <label for="product_type">商品類:</label>
             <select id="product_type" name="product_type" class="form-control">
             <option value="0">選択</option>
-            <option value="1">新品</option>
-            <option value="2">ユーズド品</option>
+            @foreach($datatype as $item)
+            <option value="{{ $item['type_id']}}">{{$item['type_name']}}</option>
+            @endforeach
             </select>
         </div>
 

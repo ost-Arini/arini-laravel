@@ -18,16 +18,26 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" ></script>
+    {{-- <script src="{{ asset('bootstrap/js/select2.min.js')}}"></script> --}}
+    <script src="{{ asset('bootstrap/js/slim.min.js')}}"></script>
+    <script src="{{ asset('bootstrap/js/popper.min.js')}}"></script>
+    <script src="{{ asset('bootstrap/js/bootstrap.min.js')}}"></script>
+    <script src="{{ asset('bootstrap/js/jquery.min.js')}}"></script>
+    <script src="{{ asset('bootstrap/js/jquery-1.12.4.js')}}"></script>
+    <script src="{{ asset('bootstrap/js/jquery-ui.js')}}"></script>
     <script src="{{ asset('bootstrap/js/jquery.dataTables.min.js')}}" defer></script>
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('bootstrap/css/jquery.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('bootstrap/css/jquery-ui.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('bootstrap/css/select2.min.css')}}" rel="stylesheet"> --}}
+    {{-- <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet"> --}}
+    <link href="{{ asset('bootstrap/css/jquery.dataTables.min.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -90,7 +100,7 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                   <a class="dropdown-item" href="{{ route('submitnew') }}">{{ '新規登録' }}</a>
                                   <a class="dropdown-item" href="{{ route('allproducts') }}">{{ '全商品' }}</a>
-                                  <a class="dropdown-item" href="{{ route('yourproducts') }}">{{ '履歴商品' }}</a>
+                                  {{-- <a class="dropdown-item" href="{{ route('yourproducts') }}">{{ '履歴商品' }}</a> --}}
                                 </div>
                               </li>
                             <li class="nav-item dropdown">
@@ -98,7 +108,7 @@
                                     {{ '取引' }}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                  <a class="dropdown-item" href="">{{ '新規登録' }}</a>
+                                <a class="dropdown-item" href="{{ route('newtrans')}}">{{ '新規登録' }}</a>
                                   <a class="dropdown-item" href="">{{ '履歴取引' }}</a>
                                 </div>
                               </li>

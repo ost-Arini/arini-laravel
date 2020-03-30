@@ -1,4 +1,4 @@
-{{dd($productlist)}}
+{{-- {{dd($productlist)}} --}}
 
 @extends('layouts.app')
 

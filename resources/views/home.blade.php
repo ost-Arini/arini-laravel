@@ -7,13 +7,15 @@
 <div class="container">
     <h2 class="text-center">Home</h2>
     <br>
-    <h4 class="text-center">All products submitted by you and other users</h4><br>
+    <h4 class="text-center">全商品リスト</h4><br>
     <div class="text-center">
     <h6 >商品類 </h6>
-        <form action="" method="GET">
-            <button type="submit" name="type" value="0">全商品類</button>
+        <form action="" method="POST">
+            @csrf
+        <a class="btn btn-info" href="{{route('home')}}">全商品類</a>
+            {{-- <button type="submit" name="type" value="0">全商品類</button> --}}
             @foreach($typelist as $item)
-            <button type="submit" name="type" value="{{ $item['type_id'] }}">{{ $item['type_name'] }}</button>
+            <button class="btn btn-info type="submit" name="type" value="{{ $item['type_id'] }}">{{ $item['type_name'] }}</button>
             @endforeach
         </form><br>
     </div>
@@ -25,17 +27,11 @@
                 <div class="card col-md-4">
                     <img class="card-img-top img-fluid" src="{{ asset($imagesource) }}" alt="" />
                     <div class="card-body">
-                        <h5>Product Name : {{ $item["product_name"] }}</h5>
-                        <p>Product ID : {{ $item["product_id"] }}</p>
-                        <p>Created by : {{ $item["created_by_user_name"] }}</p>
-                        <p>Updated by : {{ $item["updated_by_user_name"] }}</p>
-                        {{-- @foreach($typelist as $item)
-                        <p>Product Type : {{ $item["type_name"] }}</p>
-                        @endforeach --}}
-                        <?php 
-                        $realtype = $item["product_type"] == 1 ? '新品' : 'ユーズド品';
-                        echo $realtype;
-                      ?>
+                        <h5>商品名 : {{ $item["product_name"] }}</h5>
+                        <p>商品ID : {{ $item["product_id"] }}</p>
+                        <p>ユーザ名 : {{ $item["created_by_user_name"] }}</p>
+                        <p>編集者 : {{ $item["updated_by_user_name"] }}</p>
+                        <p>商品類 : {{ $item["type_name"] }}</p>
                     </div>
                 </div>
             @endforeach
