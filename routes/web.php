@@ -37,9 +37,9 @@ Route::get('/confirm/{user_id}', 'UsersController@profile_edit');
 //lempar data user ke confirm page
 Route::post('/confirm/{user_id}', 'UsersController@profile_edit')->name('confirm');
 //lempar data ke success page
-Route::post('/success/{user_id}', 'UsersController@profile_edit_success')->name('editsuccess');
+Route::post('/success/{user_id}', 'UsersController@profile_edit_success')->name('editusersuccess');
 //delete user
-Route::post('/delete','UsersController@confirmdelete')->name('deletesuccess');
+Route::post('/deleteuser','UsersController@confirmdelete')->name('deletesuccess');
 
 //PRODUCTS
 //submit new
@@ -49,13 +49,13 @@ Route::post('/submitsuccess', 'ProductsController@submitsuccess')->name('submits
 
 //all products
 Route::get('/all', 'ProductsController@allproducts')->name('allproducts');
-Route::post('/delete','ProductsController@confirmdeleteproduct')->name('deleteproductsuccess');
+Route::post('/deleteproduct','ProductsController@confirmdeleteproduct')->name('deleteproductsuccess');
 
 //edit product
 Route::get('/editproduct/{product_id}', 'ProductsController@editproduct');
 Route::get('/editconfirm/{product_id}', 'ProductsController@editproduct');
 Route::post('/editconfirm/{product_id}', 'ProductsController@editproduct')->name('editconfirm');
-Route::post('/editsuccess/{product_id}', 'ProductsController@editsuccess')->name('editsuccess');
+Route::post('/editsuccess/{product_id}', 'ProductsController@editsuccess')->name('editproductsuccess');
 
 //your products
 // Route::get('/your', 'ProductsController@yourproducts')->name('yourproducts');
@@ -67,5 +67,11 @@ Route::post('/home', 'ProductsController@productsdisplay');
 
 //TRANSACTIONS
 //submit new
-Route::get('/submitnew','TransactionsController@submittrans')->name('newtrans');
-Route::post('/submittransconfirm','TransactionsController@submitconfirm')->name('submittransconfirm');
+Route::get('/submitnew','TransactionController@submittrans')->name('newtrans');
+Route::post('/submittransconfirm','TransactionController@submitconfirm')->name('submittransconfirm');
+Route::post('submittranssuccess','TransactionController@submittranssuccess')->name('submittranssuccess');
+//all transaction
+Route::get('/alltrans', 'TransactionController@display')->name('alltrans');
+//transaction detail
+Route::get('/detail/{transaction_id}', 'TransactionController@detail')->name('detailtrans');
+Route::post('/deletetrans', 'TransactionController@delete')->name('deletetrans');

@@ -16,7 +16,7 @@
             </div>
 
             <div class="card-body">
-                <form id="form" action="{{ route('editsuccess', ['user_id'=>$user_id]) }}" method="POST">
+                <form id="form" action="{{ route('editusersuccess', ['user_id'=>$user_id]) }}" method="POST">
                 
                 
                 <div class="card-body">

@@ -11,7 +11,8 @@
 @section('content')
 <div class="container">
     <h2 class="text mt-5">Confirmation Page</h2>
-    <form action="" method="POST">
+<form action="{{route('submittranssuccess')}}" method="POST">
+    @csrf
         <div class="form-group mt-5">
             <label for="date">Transaction Date</label><br>
             <input id="date" type="hidden" name="date" value="{{$input['date']}}" class="form-control">
@@ -43,9 +44,13 @@
                   <tr>
                     @for($i=0;$i<count($items);$i++)
                     <?php $imagesource = 'upload/'.$items[$i].'/'.$order["product_image"][$i];?>
-                    <td>{{$order['product_name'][$i]}}</td>
+                    <td>
+                        <input type="hidden" class="form-control" id="items" name="items[]" value="{{$items[$i]}}">
+                        {{$order['product_name'][$i]}}</td>
                     <td><img src="{{ asset($imagesource) }}" style="width:100px;" /></td>
-                    <td>{{$qty[$i]}}</td>
+                    <td>
+                        <input type="hidden" class="form-control" id="qty" name="qty[]" value="{{$qty[$i]}}">
+                        {{$qty[$i]}}</td>
                     </tr>
                     @endfor
                 </tbody>

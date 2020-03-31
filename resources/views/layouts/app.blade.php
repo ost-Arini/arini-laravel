@@ -24,6 +24,7 @@
     <script src="{{ asset('bootstrap/js/bootstrap.min.js')}}"></script>
     <script src="{{ asset('bootstrap/js/jquery.min.js')}}"></script>
     <script src="{{ asset('bootstrap/js/jquery-1.12.4.js')}}"></script>
+    <script src="{{ asset('bootstrap/js/jquery-3.4.1.min.js')}}"></script>
     <script src="{{ asset('bootstrap/js/jquery-ui.js')}}"></script>
     <script src="{{ asset('bootstrap/js/jquery.dataTables.min.js')}}" defer></script>
 
@@ -109,7 +110,7 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('newtrans')}}">{{ '新規登録' }}</a>
-                                  <a class="dropdown-item" href="">{{ '履歴取引' }}</a>
+                                  <a class="dropdown-item" href="{{ route('alltrans')}}">{{ '履歴取引' }}</a>
                                 </div>
                               </li>
                         @endguest

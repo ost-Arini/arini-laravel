@@ -58,6 +58,7 @@ class ProductsController extends Controller
             return view('products/submitsuccess');
         // };
     }
+    
     //product type nya kalopun ga ada ga masalah, ketampil smua
     public function allproducts(Request $request, $product_type=NULL) {
         $products = new Products();

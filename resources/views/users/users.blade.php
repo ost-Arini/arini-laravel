@@ -41,9 +41,9 @@
                               <button class="btn btn-danger" id="delete" onclick="showDeleteModal({{ $user['user_id'] }})">削除</button>
                               @endif
                             </td>
-
+                            
                             {{-- tabindex -1 itu maksudnya layernya di belakang --}}
-                            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                   <div class="modal-content">
                                     <div class="modal-header">
@@ -99,6 +99,7 @@
         </div>
     </div>
 </div>
+
 <script>
     $(document).ready( function () {
         $('#userlist').DataTable({
@@ -118,9 +119,13 @@
         });
     } );
 
-    function showDeleteModal(user_id) {
+
+</script>
+<script>
+      function showDeleteModal(user_id) {
+        // alert(user_id);
         $('#modalUserId').val(user_id);
-        $('#deleteModal').modal('show');
+        $('#exampleModal').modal('show');
     }
 </script>
 @endsection

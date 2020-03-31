@@ -14,7 +14,7 @@
             <div class="card-header">
                 <h1 class="text-center">確認</h1>
             </div>
-            <form id="form" action="{{ route('editsuccess', ['product_id'=>$product_id]) }}" method="POST" enctype="multipart/form-data">
+            <form id="form" action="{{ route('editproductsuccess', ['product_id'=>$product_id]) }}" method="POST" enctype="multipart/form-data">
             {{-- @foreach ($product_data as $input) --}}
             <?php
             // $newimagesource = 'upload/'.$input["product_id"].'/'.$input["new_product_image"];
