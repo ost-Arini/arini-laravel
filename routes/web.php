@@ -75,3 +75,8 @@ Route::get('/alltrans', 'TransactionController@display')->name('alltrans');
 //transaction detail
 Route::get('/detail/{transaction_id}', 'TransactionController@detail')->name('detailtrans');
 Route::post('/deletetrans', 'TransactionController@delete')->name('deletetrans');
+//transaction edit
+Route::get('/edittrans/{transaction_id}', 'TransactionController@edit')->name('edittrans');
+Route::get('/edittransconfirm/{transaction_id}', 'TransactionController@edit');
+Route::post('/edittransconfirm/{transaction_id}', 'TransactionController@edit')->name('edittransconfirm');
+Route::post('/edittranssuccess/{transaction_id}', 'TransactionController@editsuccess')->name('edittranssuccess');

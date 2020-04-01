@@ -68,10 +68,14 @@ class ProductsController extends Controller
 
     public function editproduct(Request $request, $product_id){
         if($request->isMethod('get')) {
+            $types = new Types();
+            $datatype =$types->getTypeslist();
             $product_data = Products::where('product_id', $product_id)->get()->toArray();
-            return view('products/editproduct', ['product_id'=>$product_id, 'product_data'=>$product_data]);
+            return view('products/editproduct', ['product_id'=>$product_id, 'product_data'=>$product_data, 'datatype'=>$datatype]);
         }
         if($request->isMethod('post')) {
+            $types = new Types();
+            $datatype =$types->getTypeslist();
             $path = public_path('upload/temp');
             $input = $request->input();
             if(request()->new_product_image == ''){
@@ -79,7 +83,7 @@ class ProductsController extends Controller
                 $new_product_image = $request->file('new_product_image');
                 $product_data = Products::where('product_id', 
                 $product_id)->get()->toArray();
-                return view('products/editconfirm', ['product_id'=>$product_id, 'input'=>$input, 'new_product_image'=>$new_product_image, 'product_data'=>$product_data, 'old_product_image_name'=>$filename]);
+                return view('products/editconfirm', ['product_id'=>$product_id, 'input'=>$input, 'new_product_image'=>$new_product_image, 'product_data'=>$product_data, 'old_product_image_name'=>$filename, 'datatype'=>$datatype]);
             }else{
                 // $filename = request()->new_product_image->getClientOriginalName();
                 $filename = $request->product_name.'.'.$request->new_product_image->getClientOriginalExtension();
@@ -87,7 +91,7 @@ class ProductsController extends Controller
                 $new_product_image = $request->file('new_product_image')->move($path, $filename);
                 $laravelpath = 'upload/temp/'.$filename;
                 $product_data = Products::where('product_id', $product_id)->get()->toArray();
-                return view('products/editconfirm', ['product_id'=>$product_id, 'input'=>$input,  'new_product_image'=>$new_product_image, 'product_data'=>$product_data, 'pathlaravel'=> $laravelpath, 'product_image_name'=>$filename, 'old_product_image_name'=>$oldfilename]);
+                return view('products/editconfirm', ['product_id'=>$product_id, 'input'=>$input,  'new_product_image'=>$new_product_image, 'product_data'=>$product_data, 'pathlaravel'=> $laravelpath, 'product_image_name'=>$filename, 'old_product_image_name'=>$oldfilename, 'datatype'=>$datatype]);
             }
         }
     }

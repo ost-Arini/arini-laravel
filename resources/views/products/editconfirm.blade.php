@@ -1,5 +1,6 @@
 {{-- {{ dd($input)}} --}}
 {{-- {{ dd($product_data)}} --}}
+{{dd($datatype)}}
 
 @extends('layouts.app')
 
@@ -24,15 +25,16 @@
                 @csrf
                 <div class="form-group mt-5">
                     <label for="product_name">新商品名</label>
-                    <input id="product_name" type="text" name="product_name" class="form-control" value="{{ $input['product_name'] }}" >
-                    <input id="product_id" type="text" name="product_id" class="form-control" value="{{ $input['product_id'] }}" >
+                    <input id="product_name" type="text" name="product_name" class="form-control" value="{{ $input['product_name'] }}" disabled>
+                    <input id="product_name" type="hidden" name="product_name" class="form-control" value="{{ $input['product_name'] }}">
+                    <input id="product_id" type="hidden" name="product_id" class="form-control" value="{{ $input['product_id'] }}" >
                 </div>
                 <div class="form-group mt-5">
                     <label for="product_image">新画像 : </label><br>
                     @if($new_product_image == '')
                     <img src="{{ asset($oldimagesource) }}" alt="image" style="width: 150px;">
-                    <input id="old_product_image" type="text" name="old_product_image" value="<?= $input["old_product_image"] ?>">
-                    <input id="old_product_image_name" type="text" name="old_product_image_name" class="form-control" value="{{ $old_product_image_name }}">
+                    <input id="old_product_image" type="hidden" name="old_product_image" value="<?= $input["old_product_image"] ?>">
+                    <input id="old_product_image_name" type="hidden" name="old_product_image_name" class="form-control" value="{{ $old_product_image_name }}">
                     @else
                     <img src="{{ asset($pathlaravel) }}" alt="image" style="width: 150px;">
                     <input id="new_product_image" type="text" name="new_product_image" value="{{ $pathlaravel }}">
@@ -42,11 +44,13 @@
                   </div>
                 <div class="form-group mt-5">
                     <label for="product_type">商品類</label>
-                    <select id="product_type" name="product_type" class="form-control" value="<?= $input["product_type"] ?>">
-                        <option value="0">選択</option>
+                    <select id="product_type" name="product_type" class="form-control" value="<?= $input["product_type"] ?>" disabled>
+                        {{-- <option value="0">選択</option>
                         <option value="1"<?php echo ( $input["product_type"]=='1')?'selected':'' ?>>新品</option>
-                        <option value="2"<?php echo ( $input["product_type"]=='2')?'selected':'' ?>>ユーズド品</option>
+                        <option value="2"<?php echo ( $input["product_type"]=='2')?'selected':'' ?>>ユーズド品</option> --}}
                       </select>
+                      {{-- <input id="product_type" type="text" name="product_type" class="form-control" value="{{ $datatype['type_id']}}"{{ $input['product_type'] == $datatype['type_id'] ? "selected" : "" }}{{$datatype['type_name']}}" disabled> --}}
+                      <input id="product_type" type="hidden" name="product_type" class="form-control" value="{{ $input['product_type'] }}" >
                 </div>
             </div>
             <button type="submit" name="editsubmit" class="btn btn-primary mb-5">編集</button>

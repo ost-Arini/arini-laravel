@@ -17,15 +17,14 @@
     @yield('title')
 
     <!-- Scripts -->
+    <script src="{{ asset('bootstrap/js/jquery-3.4.1.min.js')}}"></script>
     <script src="{{ asset('js/app.js') }}" ></script>
-    {{-- <script src="{{ asset('bootstrap/js/select2.min.js')}}"></script> --}}
+    <script src="{{ asset('bootstrap/js/jquery-ui.js')}}"></script>
     <script src="{{ asset('bootstrap/js/slim.min.js')}}"></script>
     <script src="{{ asset('bootstrap/js/popper.min.js')}}"></script>
+    
     <script src="{{ asset('bootstrap/js/bootstrap.min.js')}}"></script>
-    <script src="{{ asset('bootstrap/js/jquery.min.js')}}"></script>
-    <script src="{{ asset('bootstrap/js/jquery-1.12.4.js')}}"></script>
-    <script src="{{ asset('bootstrap/js/jquery-3.4.1.min.js')}}"></script>
-    <script src="{{ asset('bootstrap/js/jquery-ui.js')}}"></script>
+    
     <script src="{{ asset('bootstrap/js/jquery.dataTables.min.js')}}" defer></script>
 
     <!-- Fonts -->
@@ -55,9 +54,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
                     </ul>
-
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->

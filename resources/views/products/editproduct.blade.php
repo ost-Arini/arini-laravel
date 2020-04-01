@@ -1,4 +1,5 @@
-{{-- {{ dd($product_data)}} --}}
+{{-- {{ dd($product_data)}}
+{{dd($datatype)}} --}}
 
 @extends('layouts.app')
 
@@ -21,21 +22,21 @@
                 <div class="form-group mt-5">
                     <label for="product_name">商品名</label>
                     <input id="product_name" type="text" name="product_name" class="form-control" value="{{ $item['product_name'] }}" >
-                    <input id="product_id" type="text" name="product_id" class="form-control" value="{{ $item['product_id'] }}" >
+                    <input id="product_id" type="hidden" name="product_id" class="form-control" value="{{ $item['product_id'] }}" >
                 </div>
                 <div class="form-group mt-5">
                     <label for="new_product_image">Product Image : </label><br>
                     <img src="{{ asset($imagesource) }}" alt="image" style="width: 150px;">
                     <input id="new_product_image" type="file" name="new_product_image" class="form-control">
-                    <input id="old_product_image" type="text" name="old_product_image" class="form-control" value="<?= $item["product_image"] ?>">
+                    <input id="old_product_image" type="hidden" name="old_product_image" class="form-control" value="<?= $item["product_image"] ?>">
                   </div>
                 <div class="form-group mt-5">
                     <label for="product_type">商品類</label>
-                    <select id="product_type" name="product_type" class="form-control" value="<?= $item["product_type"] ?>">
-                        <option value="0">選択</option>
-                        <option value="1"<?php echo ( $item["product_type"]=='1')?'selected':'' ?>>新品</option>
-                        <option value="2"<?php echo ( $item["product_type"]=='2')?'selected':'' ?>>ユーズド品</option>
-                      </select>
+                    <select id="product_type" name="product_type" class="form-control" value="">
+                        @foreach($datatype as $item2)
+                        <option value="{{ $item2['type_id']}}"{{ $item['product_type'] == $item2['type_id'] ? "selected" : "" }} >{{$item2['type_name']}}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
             <button type="submit" name="editsubmit" class="btn btn-primary mb-5">編集</button>

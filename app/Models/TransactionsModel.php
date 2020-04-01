@@ -30,7 +30,7 @@ class TransactionsModel extends Model
         ->join('products', 'detail_transaction.product_id', 'products.product_id')
         ->select()
         ->where('transaction.transaction_id', $transaction_id)
-        ->where('transaction.delete_flag',0)
+        ->where('detail_transaction.delete_flag',0)
         ->get()->toArray();
     }
     

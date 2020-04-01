@@ -11,12 +11,18 @@
 @section('content')
 <div class="container">
     <h2 class="text mt-5">Confirmation Page</h2>
-<form action="{{route('submittranssuccess')}}" method="POST">
+    <form action="{{route('submittranssuccess')}}" method="POST">
     @csrf
         <div class="form-group mt-5">
             <label for="date">Transaction Date</label><br>
-            <input id="date" type="hidden" name="date" value="{{$input['date']}}" class="form-control">
-            {{$input['date']}}
+            <input id="date" type="hidden" name="date" value="<?php 
+            $orgDate = $input['date'];
+            $newDate = date("yy-m-d", strtotime($orgDate));
+            echo $newDate; ?>" class="form-control">
+            <?php 
+            $orgDate = $input['date'];
+            $newDate = date("d F Y", strtotime($orgDate));
+            echo $newDate; ?>
         </div>
 
         <div class="form-group mt-5">

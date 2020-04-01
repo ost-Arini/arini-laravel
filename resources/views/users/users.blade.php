@@ -57,7 +57,7 @@
                                     </div>
                                     <div class="modal-footer">
                                       <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-                                      <form action="{{ route('deleteproductsuccess') }}" method="POST">
+                                      <form action="{{ route('deletesuccess') }}" method="POST">
                                         @csrf
                                         <input type="hidden" value="" id="modalUserId" name="user_id">
                                         <button type="submit" class="btn btn-danger">削除</button>

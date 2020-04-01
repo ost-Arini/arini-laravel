@@ -63,6 +63,7 @@ class UsersController extends Controller
            
         }
     }
+    
     //confirmation abis di masukin usersnya
     public function profile_edit_success(Request $request, $user_id) {
         //post
@@ -76,6 +77,7 @@ class UsersController extends Controller
         return redirect()->route('users')->with('alert', '編集完了')->with('type', '編集');
     }
     
+
     public function confirmdelete(Request $request){
         $deleteuser = Users::find($request->user_id);
         $deleteuser->delete_flag=1;

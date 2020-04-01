@@ -18,7 +18,7 @@
         @csrf
         <div class="form-group mt-5">
             <label for="date">Transaction Date</label>
-            <input type="date" id="datepicker" class="form-control" name="date">
+            <input type="text" id="datepicker" class="form-control" name="date">
         </div>
         <div class="form-group mt-5">
             <label for="address">Address</label>
@@ -72,8 +72,7 @@
             // bukan array jadi tinggal ditambah index aja
             $('#items'+index).select2();
         }
-        // $( "#datepicker").datepicker({ dateFormat: 'dd-mm-yy',autoclose: true,
-        //     todayHighlight: true  });
+        $( "#datepicker").datepicker({ dateFormat: 'dd-mm-yy',autoclose: true, todayHighlight: true  });
     });
 
     function addRow(){

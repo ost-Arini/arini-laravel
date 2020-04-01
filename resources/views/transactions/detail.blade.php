@@ -75,19 +75,21 @@
                         @endforeach
                     </tbody>
                 <table>
-                <a href="" class="btn btn-primary">編集</a>
-                <form action="{{route('deletetrans')}}" method="POST">
-                    @csrf
-                    <input type="hidden" name="transaction_id" value="{{$transaction_id}}">
-                    <input type='hidden' name="flag" value="1">
-                    <input type="submit" name="submit" class="btn btn-info" value="取消">
-                </form>
-                <form action="{{route('deletetrans')}}" method="POST">
-                    @csrf
-                    <input type="hidden" name="transaction_id" value="{{$transaction_id}}">
-                    <input type='hidden' name="flag" value="2">
-                    <input type="submit" name="submit" class="btn btn-danger" value="削除">
-                </form>
+                <a href="{{route('edittrans', ['transaction_id'=> $item['transaction_id']])}}" class="btn btn-primary">編集</a>
+                @if($item["status"] != 2)
+                    <form action="{{route('deletetrans')}}" method="POST">
+                        @csrf
+                        <input type="hidden" name="transaction_id" value="{{$transaction_id}}">
+                        <input type='hidden' name="flag" value="1">
+                        <input type="submit" name="submit" class="btn btn-info" value="取消">
+                    </form>
+                    <form action="{{route('deletetrans')}}" method="POST">
+                        @csrf
+                        <input type="hidden" name="transaction_id" value="{{$transaction_id}}">
+                        <input type='hidden' name="flag" value="2">
+                        <input type="submit" name="submit" class="btn btn-danger" value="削除">
+                    </form>
+                @endif
             </div>
         </div>
     </div>
