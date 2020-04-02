@@ -106,10 +106,15 @@
                                     {{ '取引' }}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('newtrans')}}">{{ '新規登録' }}</a>
-                                  <a class="dropdown-item" href="{{ route('alltrans')}}">{{ '履歴取引' }}</a>
+                                    <a class="dropdown-item" href="{{ route('newtrans')}}">{{ '新規登録' }}</a>
+                                    <a class="dropdown-item" href="{{ route('alltrans')}}">{{ '履歴取引' }}</a>
                                 </div>
-                              </li>
+                            </li>
+                            @if(Auth::user()->user_role == 2)
+                                <li class="nav-item">
+                                <a class="nav-link" href="{{route('typelist')}}">{{ __('商品類管理') }}</a>
+                                </li>
+                            @endif
                         @endguest
                     </ul>
                 </div>

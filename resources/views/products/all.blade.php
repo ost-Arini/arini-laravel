@@ -27,8 +27,7 @@
                <td>{{ $item['product_name'] }}</td>
                <td>{{ $item['product_id'] }}</td>
                <td>{{ $item['created_by_user_name'] }}</td>
-               <td> <?php $realtype =  $item['product_type']  == 1 ? '新品' : 'ユーズド品';
-                echo $realtype; ?></td>
+               <td>{{ $item['type_name'] }}</td>
                 <td><a class="btn btn-info" id="update" href="/editproduct/{{ $item['product_id'] }}">編集</a></td>
                 <td><button class="btn btn-danger" id="delete" onclick="showDeleteModal({{ $item['product_id'] }})">削除</button></td>
 

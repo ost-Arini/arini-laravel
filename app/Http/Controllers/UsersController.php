@@ -8,14 +8,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\UsersModel as Users;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Crypt;
 use Auth;
 
 class UsersController extends Controller
 {
+    
     public function index(Request $request) {
         //manggil class, pake new
         $user = new Users();
@@ -26,7 +25,7 @@ class UsersController extends Controller
     //Users ini adalah user yg udah login, dijadiin variabel $users
     public function show(Users $users){
         //di compact dijadiin data
-        return view('users.profile', compact('users'));
+        return view('users/profile', compact('users'));
     }
 
     // public function profile_edit(Users $users){
@@ -34,20 +33,6 @@ class UsersController extends Controller
     // }
 
     public function profile_edit(Request $request, $user_id) {
-        // $rules = [
-        //     'real_name' => ['required', 'string', 'max:255'],
-        // ];
-
-        // $messages = [
-        //     'real_name.required' => '名前を入力してください。',
-        // ];
-
-
-        // $validator = Validator::make($request->all(), $rules, $messages);
-
-        // if($validator->fails()) {
-        //     return redirect('users/edit')->withErrors($validator)->withInput();
-        // } 
         
         if ($request->isMethod('get')) 
         {
@@ -56,11 +41,25 @@ class UsersController extends Controller
             return view('users/edit', ['user_id'=>$user_id, 'userdata'=>$user_data]);
         } 
         if($request->isMethod('post')) {
-            // if post, disini baru update user
             $input = $request->input();
             $user_data = Users::where('user_id', $user_id)->get()->toArray();
+            
+            $rules = [
+                'real_name' => ['required', 'string'],
+            ];
+    
+            $messages = [
+                'real_name.required' => config('glossary.register.real_name').'を入力してください。',
+            ];
+    
+            $validator = Validator::make($request->all(), $rules, $messages);
+    
+            if($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            } else {
+            // if post, disini baru update user
             return view('users/confirm', ['user_id'=>$user_id, 'input'=>$input, 'userdata'=>$user_data]);
-           
+            }
         }
     }
     

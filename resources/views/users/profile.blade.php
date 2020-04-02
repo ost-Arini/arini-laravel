@@ -34,10 +34,6 @@
                         <th class="text-right">性別</th>
                         <td> {{ $users->gender == 1 ? '男性' : '女性' }} </td>
                     </tr>
-                    {{-- <tr>
-                        <td><a class="btn btn-info" id="update" href="/edit/{{ auth()->user()->user_id }}">更新</a></td>
-                        <td><a class="btn btn-danger" id="delete" href="">削除</a></td>
-                    </tr> --}}
                 </table>
             </div>
         </div>

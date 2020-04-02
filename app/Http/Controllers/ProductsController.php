@@ -8,11 +8,11 @@ use App\Models\ProductsModel as Products;
 use App\Models\TypesModel as Types;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-// use App\Http\Controllers\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class ProductsController extends Controller
 {
-    public function submit() {
+    public function submit(Request $request) {
         $types = new Types();
         $datatype =$types->getTypeslist();
         return view('products/submit', ['datatype' => $datatype]);
@@ -20,18 +20,37 @@ class ProductsController extends Controller
 
 
     public function submitconfirm(Request $request) {
-        //bikin folder temp, kalo belum ada, bikin pake mkdir > cek dulu pake if file exists
-        $path = public_path().'\upload\temp';
-        if (!file_exists($path)) {
-            mkdir($path, 0777, true);
+        $rules = [
+            'product_name' => ['required', 'string'],
+            'product_image' => ['required'],
+            'product_type' => ['required', 'integer'],
+        ];
+
+        $messages = [
+            'product_name.required' => '商品名を入力してください。',
+            'product_image.required' => '商品画像を入力してください。',
+            'product_type.required' => '商品類を入力してください。',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
         }
-        $types = new Types();
-        $datatype =$types->getTypeslist();
-        $input = $request->input();
-        $filename = $request->product_name.'.'.$request->product_image->getClientOriginalExtension();
-        $product_image = $request->file('product_image')->move($path, $filename);
-        $laravelpath = 'upload/temp'.'/'.$filename;
-        return view('products/submitconfirm', ['datatype' => $datatype, 'input'=>$input, 'product_image'=>$product_image, 'pathlaravel'=> $laravelpath, 'product_image_name'=>$filename] );
+        else {
+        //bikin folder temp, kalo belum ada, bikin pake mkdir > cek dulu pake if file exists
+            $path = public_path().'\upload\temp';
+            if (!file_exists($path)) {
+                mkdir($path, 0777, true);
+            }
+            $types = new Types();
+            $datatype =$types->getTypeslist();
+            $input = $request->input();
+            $filename = $request->product_name.'.'.$request->product_image->getClientOriginalExtension();
+            $product_image = $request->file('product_image')->move($path, $filename);
+            $laravelpath = 'upload/temp'.'/'.$filename;
+            return view('products/submitconfirm', ['datatype' => $datatype, 'input'=>$input, 'product_image'=>$product_image, 'pathlaravel'=> $laravelpath, 'product_image_name'=>$filename] );
+        }
     }
 
 
@@ -55,15 +74,16 @@ class ProductsController extends Controller
             }
             //move file dari old path ke path baru
             rename($oldpath, $path);
-            return view('products/submitsuccess');
-        // };
+            return redirect()->route('allproducts')->with('alert', '登録完了')->with('type', '商品登録');
     }
     
     //product type nya kalopun ga ada ga masalah, ketampil smua
     public function allproducts(Request $request, $product_type=NULL) {
         $products = new Products();
         $data = $products->getProductlist();
-        return view('products/all', ['productlist'=>$data]);
+        $types = new Types();
+        $datatype =$types->getTypeslist();
+        return view('products/all', ['productlist'=>$data, 'typelist'=>$datatype]);
     }
 
     public function editproduct(Request $request, $product_id){
@@ -74,24 +94,39 @@ class ProductsController extends Controller
             return view('products/editproduct', ['product_id'=>$product_id, 'product_data'=>$product_data, 'datatype'=>$datatype]);
         }
         if($request->isMethod('post')) {
-            $types = new Types();
-            $datatype =$types->getTypeslist();
-            $path = public_path('upload/temp');
-            $input = $request->input();
-            if(request()->new_product_image == ''){
-                $filename = request()->old_product_image;
-                $new_product_image = $request->file('new_product_image');
-                $product_data = Products::where('product_id', 
-                $product_id)->get()->toArray();
-                return view('products/editconfirm', ['product_id'=>$product_id, 'input'=>$input, 'new_product_image'=>$new_product_image, 'product_data'=>$product_data, 'old_product_image_name'=>$filename, 'datatype'=>$datatype]);
-            }else{
-                // $filename = request()->new_product_image->getClientOriginalName();
-                $filename = $request->product_name.'.'.$request->new_product_image->getClientOriginalExtension();
-                $oldfilename = request()->old_product_image;
-                $new_product_image = $request->file('new_product_image')->move($path, $filename);
-                $laravelpath = 'upload/temp/'.$filename;
-                $product_data = Products::where('product_id', $product_id)->get()->toArray();
-                return view('products/editconfirm', ['product_id'=>$product_id, 'input'=>$input,  'new_product_image'=>$new_product_image, 'product_data'=>$product_data, 'pathlaravel'=> $laravelpath, 'product_image_name'=>$filename, 'old_product_image_name'=>$oldfilename, 'datatype'=>$datatype]);
+            $rules = [
+                'product_name' => ['required', 'string'],
+            ];
+    
+            $messages = [
+                'product_name.required' => '商品名を入力してください。',
+            ];
+    
+            $validator = Validator::make($request->all(), $rules, $messages);
+    
+            if($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+            else {
+                $types = new Types();
+                $datatype =$types->getTypeslist();
+                $path = public_path('upload/temp');
+                $input = $request->input();
+                if(request()->new_product_image == ''){
+                    $filename = request()->old_product_image;
+                    $new_product_image = $request->file('new_product_image');
+                    $product_data = Products::where('product_id', 
+                    $product_id)->get()->toArray();
+                    return view('products/editconfirm', ['product_id'=>$product_id, 'input'=>$input, 'new_product_image'=>$new_product_image, 'product_data'=>$product_data, 'old_product_image_name'=>$filename, 'datatype'=>$datatype]);
+                }else{
+                    // $filename = request()->new_product_image->getClientOriginalName();
+                    $filename = $request->product_name.'.'.$request->new_product_image->getClientOriginalExtension();
+                    $oldfilename = request()->old_product_image;
+                    $new_product_image = $request->file('new_product_image')->move($path, $filename);
+                    $laravelpath = 'upload/temp/'.$filename;
+                    $product_data = Products::where('product_id', $product_id)->get()->toArray();
+                    return view('products/editconfirm', ['product_id'=>$product_id, 'input'=>$input,  'new_product_image'=>$new_product_image, 'product_data'=>$product_data, 'pathlaravel'=> $laravelpath, 'product_image_name'=>$filename, 'old_product_image_name'=>$oldfilename, 'datatype'=>$datatype]);
+                }
             }
         }
     }

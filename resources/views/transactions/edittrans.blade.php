@@ -17,15 +17,25 @@
         @foreach($translist as $item)
         <div class="form-group mt-5">
             <label for="date">注文日 Date</label>
-            <input type="text" id="datepicker" class="form-control" name="date" value="<?php 
+            <input type="text" id="datepicker" class="form-control @error('date') is-invalid @enderror" name="date" value="<?php 
             $orgDate = $item['transaction_date'];
             $newDate = date("d F Y", strtotime($orgDate));
             echo $newDate; ?>">
+            @error('date')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
         <div class="form-group mt-5">
             <label for="address">住所</label>
-            <textarea class="form-control" id="address" name="address">{{$item['address']}}</textarea>
+            <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address">{{$item['address']}}</textarea>
             <input id="transaction_id" type="hidden" name="transaction_id" class="form-control" value="{{ $item['transaction_id'] }}" >
+            @error('address')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
         <div class="form-group mt-5">
             <label for="memo">メモ</label>
@@ -44,7 +54,7 @@
                 <tbody>
                     <div id="transaction_detail">
                     <!-- buat itung value perkara looping product name -->
-                    <input type="hidden" id="count" value="3">
+                    <input type="hidden" id="count" value="{{count($detaillist)}}">
 
                     @for($i=0;$i<count($detaillist);$i++)
                         <tr>
@@ -56,8 +66,14 @@
                             </select>
                             </td>
                             <td>
-                                <input type="number" id="qty" class="form-control" style="" name="qty[]" value="{{$detaillist[$i]['quantity']}}">
-                                <input type="hidden" id="detail_id" class="form-control" style="" name="detail_id[]" value="{{$detaillist[$i]['detail_id']}}"></td>
+                                <input type="number" id="qty" class="form-control @error('qty.'.$i) is-invalid @enderror" style="" name="qty[]" value="{{$detaillist[$i]['quantity']}}">
+                                <input type="hidden" id="detail_id" class="form-control" style="" name="detail_id[]" value="{{$detaillist[$i]['detail_id']}}">
+                                @error('qty.'.$i)
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </td>
                             <td class="text-center"><button type="button" id="delete_row" onclick="deleterow(this)">コラム削除</button></td>
                         </tr>
                     @endfor
@@ -73,8 +89,8 @@
 </div>
 <script>
     $(document).ready(function() {
-        //default 3 row
-        for (let index = 0; index <=3; index++) {
+        var flag = $('#count').val();
+        for (let index = 0; index < flag; index++) {
             // bukan array jadi tinggal ditambah index aja
             $('#items'+index).select2();
         }
@@ -85,9 +101,11 @@
         //nyari value dari countnya
         var flag = $('#count').val();
         var index = flag+1;
-        var product = '<td><select class="js-example-basic-single form-control" id="items'+index+'" style="width:300px;" name="items[]"><option value="0">Select product</option>@foreach($productlist as $item2)<option value="{{$item2['product_id']}}">{{$item2['product_name']}}</option>@endforeach</select></td>';
+        index = index + Math.floor(Math.random() * 100);
+        var product = '<td><select class="js-example-basic-single form-control" id="items'+index+'" style="width:300px;" name="items[]">@foreach($productlist as $item2)<option value="{{$item2['product_id']}}">{{$item2['product_name']}}</option>@endforeach</select></td>';
         
-        $('#transaction_table').append('<tr>'+product+'<td><input type="number" id="qty" class="form-control"  name="qty[]"></td><td class="text-center"><button type="button" id="delete_row" onclick="deleterow(this)">delete row</button></td></tr>');
+        $('#transaction_table').append('<tr>'+product+'<td><input type="number" id="qty" name="qty[]" class="form-control @error('qty.'.$i) is-invalid @enderror">@error('qty.'.$i)<span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>@enderror</td><td class="text-center"><button type="button" id="delete_row" onclick="deleterow(this)">コラム削除</button></td></tr>');
+
         $('#items'+index).select2();
         index++;
         document.getElementById('count').value++;

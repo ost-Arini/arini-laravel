@@ -10,11 +10,11 @@
 
 @section('content')
 <div class="container">
-    <h2 class="text mt-5">Confirmation Page</h2>
+    <h2 class="text mt-5">取引登録確認</h2>
     <form action="{{route('submittranssuccess')}}" method="POST">
     @csrf
         <div class="form-group mt-5">
-            <label for="date">Transaction Date</label><br>
+            <label for="date">注文日</label><br>
             <input id="date" type="hidden" name="date" value="<?php 
             $orgDate = $input['date'];
             $newDate = date("yy-m-d", strtotime($orgDate));
@@ -26,13 +26,13 @@
         </div>
 
         <div class="form-group mt-5">
-            <label for="address">Address</label><br>
+            <label for="address">住所</label><br>
             <input id="address" type="hidden" name="address" value="{{$input['address']}}" class="form-control">
             {{$input['address']}}
         </div>
 
         <div class="form-group mt-5">
-            <label for="memo">Memo</label><br>
+            <label for="memo">メモ</label><br>
             <input id="memo" type="hidden" name="memo" value="{{$input['memo']}}" class="form-control">
             {{$input['memo']}}
         </div>
@@ -41,9 +41,9 @@
             <table cellpadding="5">
               <thead>
                 <tr>       
-                  <th>Product Name</th>
-                  <th>Image</th> 
-                  <th>Qty</th>
+                  <th>商品名</th>
+                  <th>画像</th> 
+                  <th>数量</th>
                 </tr>
               </thead>
               <tbody>
@@ -61,16 +61,15 @@
                     @endfor
                 </tbody>
             </table>
-            
         </div>
 
 
-        <button type="submit" name="submit" class="btn btn-primary mb-5">Submit</button>
-        <button type="button" name="cancel" class="btn btn-danger mb-5" onClick="cancelConfirm()">Go Back</button>
+        <button type="submit" name="submit" class="btn btn-primary mb-5">登録</button>
+        <button type="button" name="cancel" class="btn btn-danger mb-5" onClick="cancelConfirm()">キャンセル</button>
         <!-- bikin alert pake function js -->
         <script>
         function cancelConfirm(){
-            var conf = confirm("Are you sure you want to go back? Your uploaded file will not be saved");
+            var conf = confirm("登録をキャンセルしますか？");
             if(conf == true) {
                 document.location.href = '';
             }

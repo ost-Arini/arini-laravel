@@ -8,6 +8,8 @@ use App\Models\TransactionsModel as Transaction;
 use App\Models\ProductsModel as Products;
 use App\Models\DetailTransactionsModel as Detail_transaction;
 
+use Illuminate\Support\Facades\Validator;
+
 class TransactionController extends Controller
 {
     public function submittrans() {
@@ -18,18 +20,42 @@ class TransactionController extends Controller
 
 
     public function submitconfirm(Request $request) {
-        $input = $request->input();
-        $items = $request->items;
-        $qty = $request->qty;
+        $rules = [
+            'date' => ['required', 'string'],
+            'address' => ['required', 'string'],
+            'qty' => ['required'],
+        ];
 
-        $order["product_name"] = [];
-        $order["product_image"] = [];
-        foreach($input['items'] as $item) {
-            $product = Products::select("product_name", "product_image")->where('product_id', $item)->first();
-            array_push($order["product_name"], $product->product_name );
-            array_push($order["product_image"], $product->product_image );
+        $messages = [
+            'date.required' => '注文日を入力してください。',
+            'address.required' => '住所を入力してください。',
+            'qty.required' => '数量を入力してください。',
+        ];
+
+        for ($i=0; $i <count($request->qty) ; $i++) { 
+            $rules['qty.'.$i] = 'required';
+            $messages['qty.'.$i.'.required'] = '数量を確認してください';
         }
-        return view('transactions/submittransconfirm', ['input'=>$input, 'order'=>$order,'qty'=>$qty, 'items'=>$items]);
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        else{
+            $input = $request->input();
+            $items = $request->items;
+            $qty = $request->qty;
+
+            $order["product_name"] = [];
+            $order["product_image"] = [];
+            foreach($input['items'] as $item) {
+                $product = Products::select("product_name", "product_image")->where('product_id', $item)->first();
+                array_push($order["product_name"], $product->product_name );
+                array_push($order["product_image"], $product->product_image );
+            }
+            return view('transactions/submittransconfirm', ['input'=>$input, 'order'=>$order,'qty'=>$qty, 'items'=>$items]);
+        }
     }
 
 
@@ -42,6 +68,8 @@ class TransactionController extends Controller
         $transaction->created_by_user_id = auth()->user()->user_id;
         $transaction->created_by_user_name = auth()->user()->user_name;
         $transaction->save();
+        $alert = '登録完了';
+        $type = '登録';
         $items = $request->items;
         for($i=0;$i < count($items); $i++){
             $detail = new Detail_transaction();
@@ -52,7 +80,8 @@ class TransactionController extends Controller
             $detail->created_by_user_name = auth()->user()->user_name;
             $detail->save();
         }
-        return view('transactions/submittranssuccess');
+        // return view('transactions/submittranssuccess');
+        return redirect()->route('alltrans')->with('alert', $alert)->with('type', $type);
     }
 
 
@@ -100,18 +129,41 @@ class TransactionController extends Controller
             return view('transactions/edittrans',['transaction_id'=>$transaction_id, 'detaillist'=>$detaillist, 'translist'=>$translist, 'productlist'=>$productlist]);
         }
         if($request->isMethod('post')){
-            $input = $request->input();
-            $trans = Transaction::where('transaction_id', $transaction_id)->get()->toArray();
-
-            $order["product_name"] = [];
-            $order["product_image"] = [];
-            foreach($input['items'] as $item) {
-                $product = Products::select("product_name", "product_image")->where('product_id', $item)->first();
-                array_push($order["product_name"], $product->product_name );
-                array_push($order["product_image"], $product->product_image );
+            $rules = [
+                'date' => ['required', 'string'],
+                'address' => ['required', 'string'],
+                'qty' => ['required'],
+            ];
+    
+            $messages = [
+                'date.required' => '注文日を入力してください。',
+                'address.required' => '住所を入力してください。',
+                'qty.required' => '数量を入力してください。',
+            ];
+    
+            for ($i=0; $i <count($request->qty) ; $i++) { 
+                $rules['qty.'.$i] = 'required';
+                $messages['qty.'.$i.'.required'] = '数量を確認してください';
             }
+    
+            $validator = Validator::make($request->all(), $rules, $messages);
+    
+            if($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            } else {
+                $input = $request->input();
+                $trans = Transaction::where('transaction_id', $transaction_id)->get()->toArray();
 
-            return view('transactions/edittransconfirm', ['transaction_id'=>$transaction_id, 'trans'=>$trans, 'input'=>$input, 'order'=>$order]);
+                $order["product_name"] = [];
+                $order["product_image"] = [];
+                foreach($input['items'] as $item) {
+                    $product = Products::select("product_name", "product_image")->where('product_id', $item)->first();
+                    array_push($order["product_name"], $product->product_name );
+                    array_push($order["product_image"], $product->product_image );
+                }
+
+                return view('transactions/edittransconfirm', ['transaction_id'=>$transaction_id, 'trans'=>$trans, 'input'=>$input, 'order'=>$order]);
+            }
         }
     }
 

@@ -80,3 +80,7 @@ Route::get('/edittrans/{transaction_id}', 'TransactionController@edit')->name('e
 Route::get('/edittransconfirm/{transaction_id}', 'TransactionController@edit');
 Route::post('/edittransconfirm/{transaction_id}', 'TransactionController@edit')->name('edittransconfirm');
 Route::post('/edittranssuccess/{transaction_id}', 'TransactionController@editsuccess')->name('edittranssuccess');
+
+//TYPES
+Route::get('/typelist','TypesController@show')->name('typelist');
+Route::post('/typelist', 'TypesController@add')->name('addtype');

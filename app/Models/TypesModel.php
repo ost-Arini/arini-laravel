@@ -10,6 +10,10 @@ class TypesModel extends Model
 
     protected $primaryKey = 'type_id';
 
+    protected $fillable = ['type_name'];
+
+    public $timestamps = false; //biar ga otomatis updated at
+
     public function getTypeslist() {
         return $this->select()->get()->toArray();
     }

@@ -21,7 +21,12 @@
                 @csrf
                 <div class="form-group mt-5">
                     <label for="product_name">商品名</label>
-                    <input id="product_name" type="text" name="product_name" class="form-control" value="{{ $item['product_name'] }}" >
+                    <input id="product_name" type="text" name="product_name" class="form-control @error('product_name') is-invalid @enderror" value="{{ $item['product_name'] }}">
+                    @error('product_name')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                     <input id="product_id" type="hidden" name="product_id" class="form-control" value="{{ $item['product_id'] }}" >
                 </div>
                 <div class="form-group mt-5">

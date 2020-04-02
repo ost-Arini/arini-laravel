@@ -44,7 +44,7 @@
                   <th>商品名</th>
                   <th>画像</th> 
                   <th>数量</th>
-                  <th></th>
+                  {{-- <th></th> --}}
                 </tr>
               </thead>
               <tbody>
@@ -60,9 +60,9 @@
                             <input type="hidden" class="form-control" id="qty" name="qty[]" value="{{$input['qty'][$i]}}">
                             {{$input['qty'][$i]}}
                         </td>
-                        <td>
+                        {{-- <td>
                             <input type="hidden" id="detail_id" class="form-control" style="" name="detail_id[]" value="{{$input['detail_id'][$i]}}">
-                        </td>
+                        </td> --}}
                     </tr>
                     @endfor
                 </tbody>

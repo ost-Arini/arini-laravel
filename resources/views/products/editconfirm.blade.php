@@ -1,6 +1,6 @@
 {{-- {{ dd($input)}} --}}
 {{-- {{ dd($product_data)}} --}}
-{{dd($datatype)}}
+{{-- {{dd($datatype)}} --}}
 
 @extends('layouts.app')
 
@@ -44,13 +44,15 @@
                   </div>
                 <div class="form-group mt-5">
                     <label for="product_type">商品類</label>
-                    <select id="product_type" name="product_type" class="form-control" value="<?= $input["product_type"] ?>" disabled>
+                    <select id="product_type" name="product_type" class="form-control" value="" disabled>
                         {{-- <option value="0">選択</option>
                         <option value="1"<?php echo ( $input["product_type"]=='1')?'selected':'' ?>>新品</option>
                         <option value="2"<?php echo ( $input["product_type"]=='2')?'selected':'' ?>>ユーズド品</option> --}}
+                        @foreach($datatype as $item)
+                            <option value="{{$item['type_id']}}" {{$input['product_type'] == $item['type_id'] ? "selected" : "" }}>{{$item['type_name']}}</option>
+                        @endforeach
                       </select>
-                      {{-- <input id="product_type" type="text" name="product_type" class="form-control" value="{{ $datatype['type_id']}}"{{ $input['product_type'] == $datatype['type_id'] ? "selected" : "" }}{{$datatype['type_name']}}" disabled> --}}
-                      <input id="product_type" type="hidden" name="product_type" class="form-control" value="{{ $input['product_type'] }}" >
+                        <input id="product_type" type="hidden" name="product_type" class="form-control" value="{{$input['product_type']}}">
                 </div>
             </div>
             <button type="submit" name="editsubmit" class="btn btn-primary mb-5">編集</button>

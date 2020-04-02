@@ -15,6 +15,7 @@
               <th>住所</th>
               <th>メモ</th>
               <th>注文者</th>
+              <th>編集者</th>
               <th>ステータス</th>
               <th></th>
            </tr>
@@ -30,6 +31,7 @@
                 <td>{{ $item['address'] }}</td>
                 <td>{{ $item['memo'] }}</td>
                 <td>{{ $item['created_by_user_name'] }}</td>
+                <td>{{ $item['updated_by_user_name'] }}</td>
                 <td><?php
                     if($item["status"] == 1){
                       echo '過程中';

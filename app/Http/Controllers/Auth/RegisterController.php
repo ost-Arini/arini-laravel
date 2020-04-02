@@ -92,6 +92,7 @@ class RegisterController extends Controller
         else {
             $users = new Users();
             $users->user_name = $request->user_name;
+            $users->user_role = 1;
             $users->email = $request->email;
             $users->real_name = $request->real_name;
             $users->password = Hash::make($request->password);
