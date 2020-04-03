@@ -54,6 +54,11 @@
                       </select>
                         <input id="product_type" type="hidden" name="product_type" class="form-control" value="{{$input['product_type']}}">
                 </div>
+                <div class="form-group mt-5">
+                    <label for="stock">新商品名</label>
+                    <input id="stock" type="text" name="stock" class="form-control" value="{{ $input['stock'] }}" disabled>
+                    <input id="stock" type="hidden" name="stock" class="form-control" value="{{ $input['stock'] }}">
+                </div>
             </div>
             <button type="submit" name="editsubmit" class="btn btn-primary mb-5">編集</button>
             <button type="reset" class="btn btn-danger mb-5">リセット</button>

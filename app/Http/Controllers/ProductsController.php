@@ -24,12 +24,14 @@ class ProductsController extends Controller
             'product_name' => ['required', 'string'],
             'product_image' => ['required'],
             'product_type' => ['required', 'integer'],
+            'stock' => ['required', 'integer'],
         ];
 
         $messages = [
             'product_name.required' => '商品名を入力してください。',
             'product_image.required' => '商品画像を入力してください。',
             'product_type.required' => '商品類を入力してください。',
+            'stock.required' => '在庫を入力してください。',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -59,6 +61,7 @@ class ProductsController extends Controller
             $products->product_name = $request->product_name;
             $products->product_image = $request->product_image_name;
             $products->product_type = $request->product_type;
+            $products->stock =  $request->stock;
             $products->created_by_user_id = auth()->user()->user_id;
             $products->created_by_user_name = auth()->user()->user_name;
             $products->save();
@@ -90,16 +93,28 @@ class ProductsController extends Controller
         if($request->isMethod('get')) {
             $types = new Types();
             $datatype =$types->getTypeslist();
-            $product_data = Products::where('product_id', $product_id)->get()->toArray();
-            return view('products/editproduct', ['product_id'=>$product_id, 'product_data'=>$product_data, 'datatype'=>$datatype]);
+            $products = new Products();
+            $data = $products->getProductlist();
+            if($product_id != ''){
+                $product_data = Products::where('product_id', $product_id)->get()->toArray();
+                if($product_data != NULL){
+                    return view('products/editproduct', ['product_id'=>$product_id, 'product_data'=>$product_data, 'datatype'=>$datatype]);
+                } else {
+                    return redirect()->route('allproducts')->with("errormessage", "商品が見つかりません");
+                }
+            } else {
+                return view('products/all', ['productlist'=>$data, 'typelist'=>$datatype]);
+            }
         }
         if($request->isMethod('post')) {
             $rules = [
                 'product_name' => ['required', 'string'],
+                'stock' => ['required', 'integer'],
             ];
     
             $messages = [
                 'product_name.required' => '商品名を入力してください。',
+                'stock.required' => '在庫を入力してください。',
             ];
     
             $validator = Validator::make($request->all(), $rules, $messages);
@@ -169,13 +184,6 @@ class ProductsController extends Controller
         return redirect()->route('allproducts')->with('alert', '削除完了')->with('type', '削除');
     }
 
-    // public function yourproducts(Request $user_id) {
-    //     $products = Products::where('created_by_user_id', auth()->user()->user_id)->get()->toArray();
-    //     $products = new Products();
-    //     $data = $products->getProductlist();
-    //     return view('products/your', ['productlist'=>$data]);
-    //     // return view('products/your');
-    // }
 
     public function productsdisplay(Request $request, $product_type=NULL){
 
@@ -191,5 +199,9 @@ class ProductsController extends Controller
             $products2 = $products->getProductlist($type);
             return view('home',['productlist'=>$products2, 'typelist'=>$datatype]);
         }
+    }
+
+    public function error(){
+        return view('error');
     }
 }

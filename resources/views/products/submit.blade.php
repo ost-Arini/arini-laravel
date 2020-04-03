@@ -47,6 +47,16 @@
             @enderror
         </div>
 
+        <div class="form-group mt-5">
+            <label for="stock">在庫</label>
+            <input id="stock" type="number" name="stock" class="form-control @error('stock') is-invalid @enderror">
+            @error('stock')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+        </div>
+
         <button type="submit" name="submit" class="btn btn-primary mb-5">登録</button>
         <button type="reset" class="btn btn-danger mb-5">リセット</button>
         

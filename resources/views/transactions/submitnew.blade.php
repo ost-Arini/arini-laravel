@@ -62,7 +62,7 @@
                                 </select>
                             </td>
                             <td>
-                                <input type="number" id="qty" name="qty[]" required class="form-control @error('qty.'.$i) is-invalid @enderror">
+                                <input type="number" id="qty" name="qty[]" required class="form-control @error('qty.'.$i) is-invalid @enderror" min="1" max="{{$item['stock']}}" onkeyup="maxqty()">
                                 @error('qty.'.$i)
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -92,6 +92,15 @@
         }
         $( "#datepicker").datepicker({ dateFormat: 'dd-mm-yy',autoclose: true, todayHighlight: true  });
     });
+
+
+    // function maxqty(){
+    //     var max = document.getElementById("qty");
+    //     max.value = $data['stock'];
+        
+    // }
+    
+
 
     function addRow(){
         //nyari value dari countnya

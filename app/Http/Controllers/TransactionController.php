@@ -96,7 +96,16 @@ class TransactionController extends Controller
         $detail = new Transaction();
         $data = $detail->getDetailslist($transaction_id);
         $translist = $detail->getTranslist($transaction_id);
-        return view('transactions/detail', ['transaction_id'=>$transaction_id, 'translist'=>$translist , 'detail'=>$data]);
+        if($transaction_id != ''){
+            $trans = Transaction::where('transaction_id', $transaction_id)->get()->toArray();
+            if($trans != NULL){
+                return view('transactions/detail', ['transaction_id'=>$transaction_id, 'translist'=>$translist , 'detail'=>$data]);
+            } else {
+                return redirect()->route('alltrans')->with("errormessage", "レコードが見つかりません");
+            }
+        } else {
+            return view('transactions/alltrans', ['translist'=>$data]);
+        }
     }
 
 
@@ -125,8 +134,16 @@ class TransactionController extends Controller
             $translist = $list->getTranslist($transaction_id);
             $products = new Products();
             $productlist =$products->getProductlist();
-            
-            return view('transactions/edittrans',['transaction_id'=>$transaction_id, 'detaillist'=>$detaillist, 'translist'=>$translist, 'productlist'=>$productlist]);
+            if($transaction_id != ''){
+                $trans = Transaction::where('transaction_id', $transaction_id)->get()->toArray();
+                if($trans != NULL){
+                    return view('transactions/edittrans',['transaction_id'=>$transaction_id, 'detaillist'=>$detaillist, 'translist'=>$translist, 'productlist'=>$productlist]);
+                } else {
+                    return redirect()->route('alltrans')->with("errormessage", "レコードが見つかりません");
+                }
+            } else {
+                return view('transactions/alltrans', ['translist'=>$data]);
+            }
         }
         if($request->isMethod('post')){
             $rules = [
@@ -192,5 +209,11 @@ class TransactionController extends Controller
             $detail->save();
         }
         return redirect()->route('alltrans')->with('alert', $alert)->with('type', $type);
+    }
+
+    //buat totalnya
+    public function total(Request $request, $transaction_id){
+        $trans = Detail_Transaction::where('transaction_id', $transaction_id)->where('delete_flag', 0)->sum('quantity');
+        echo($trans);
     }
 }

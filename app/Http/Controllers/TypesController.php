@@ -5,13 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\TypesModel as Types;
 use Illuminate\Support\Facades\Validator;
+use Auth;
 
 class TypesController extends Controller
 {
     public function show(Request $request){
-        $types = new Types();
-        $datatype =$types->getTypeslist();
-        return view('/typelist', ['datatype' => $datatype]);
+        if(Auth::user()->user_role == 2){
+            $types = new Types();
+            $datatype =$types->getTypeslist();
+            return view('/typelist', ['datatype' => $datatype]);
+        } else {
+            return view('error');
+        }
     }
 
     public function add(Request $request){

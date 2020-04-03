@@ -11,7 +11,7 @@ class ProductsModel extends Model
     protected $primaryKey = 'product_id';
 
     //biar semua field ini bisa diisi berbarengan dalam 1 klik tombol submit
-    protected $fillable = ['product_name','product_image','product_type'];
+    protected $fillable = ['product_name','product_image','product_type','stock'];
 
     //
     public function getProductlist($type = null) {

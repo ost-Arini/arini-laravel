@@ -7,6 +7,11 @@
 
 @section('content')
 <div class="container">
+    @if(session()->has('errormessage'))
+        <div class="alert alert-danger text-center">
+            {{ session()->get('errormessage') }}
+        </div>
+    @endif
     <table id="alltrans" class="table table-sm table-hover" cellspacing="0" width="100%">
         <thead>
            <tr>

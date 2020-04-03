@@ -8,9 +8,15 @@
 <div class="row justify-content-center">
     <div class="">
         <div class="card">
-            <div class="card-header">
-                <h1>User List</h1>
+            <div class="card-header text-center">
+                <h1>ユーザ一覧</h1>
             </div>
+
+            @if(session()->has('errormessage'))
+              <div class="alert alert-danger text-center">
+                {{ session()->get('errormessage') }}
+              </div>
+            @endif
 
             <div class="card-body">
                 <table cellpadding='8' id='userlist' class="display">
@@ -18,6 +24,7 @@
                         <tr>
                             <th >ユーザ名</th>
                             <th>名前</th>
+                            <th>権限</th>
                             <th>メール</th>
                             <th>生年月日</th>
                             <th>性別</th>
@@ -32,16 +39,25 @@
                             {{-- {{  }} ini mirip dengan echo --}}
                             <th> {{ $user['user_name'] }}</th>
                             <td> {{ $user['real_name'] }} </td>
+                            <td> {{ $user['user_role'] == 1 ? '一般ユーザ' : '管理者' }} </td>
                             <td> {{ $user['email'] }}</td>
                             <td> {{ $user['birthday'] }}</td>
                             <td> {{ $user['gender']== 1 ? '男性' : '女性' }}</td>
-                            <td><a class="btn btn-info" id="update" href="/edit/{{ $user['user_id'] }}">編集</a></td>
+                            @if(Auth::user()->user_role == 2)
+                              <td><a class="btn btn-info" id="update" href="/edit/{{ $user['user_id'] }}">編集</a></td>
+                              <td>
+                                @if($user['user_id'] !== auth()->user()->user_id)
+                                <button class="btn btn-danger" id="delete" onclick="showDeleteModal({{ $user['user_id'] }})">削除</button>
+                                @endif
+                              </td>
+                            @else
                             <td>
-                              @if($user['user_id'] !== auth()->user()->user_id)
-                              <button class="btn btn-danger" id="delete" onclick="showDeleteModal({{ $user['user_id'] }})">削除</button>
-                              @endif
+                              @if($user['user_id'] == auth()->user()->user_id)
+                              <a class="btn btn-info" id="update" href="/edit/{{ $user['user_id'] }}">編集</a></td>
+                              @endif  
                             </td>
-                            
+                            <td></td> 
+                            @endif
                             {{-- tabindex -1 itu maksudnya layernya di belakang --}}
                             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">

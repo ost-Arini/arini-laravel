@@ -43,6 +43,15 @@
                         @endforeach
                     </select>
                 </div>
+                <div class="form-group mt-5">
+                    <label for="stock">在庫</label>
+                    <input id="stock" type="number" name="stock" class="form-control @error('stock') is-invalid @enderror" value="{{ $item['stock'] }}">
+                    @error('stock')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
             </div>
             <button type="submit" name="editsubmit" class="btn btn-primary mb-5">編集</button>
             <button type="reset" class="btn btn-danger mb-5">リセット</button>

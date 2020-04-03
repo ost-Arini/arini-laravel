@@ -23,22 +23,39 @@ class UsersController extends Controller
     }
 
     //Users ini adalah user yg udah login, dijadiin variabel $users
-    public function show(Users $users){
-        //di compact dijadiin data
-        return view('users/profile', compact('users'));
+    public function show(Request $request, $user_id){
+        $user = new Users();
+        $data = $user->getUserlist();
+        if($user_id != ''){
+            $user_data = Users::where('user_id', $user_id)->get()->toArray();
+            if($user_data != NULL){
+                return view('users/profile', ['user_id'=>$user_id, 'userdata'=>$user_data]);
+            } else {
+                return redirect()->route('users')->with("errormessage", "レコードが見つかりません");
+            }
+        } 
+        else {
+            return view('users/profile');
+        }
+        
     }
 
-    // public function profile_edit(Users $users){
-    //     return view('users.profileedit', compact('users'));
-    // }
-
+   
     public function profile_edit(Request $request, $user_id) {
-        
-        if ($request->isMethod('get')) 
-        {
-            //view profile page only
-            $user_data = Users::where('user_id', $user_id)->get()->toArray();
-            return view('users/edit', ['user_id'=>$user_id, 'userdata'=>$user_data]);
+        $user = new Users();
+        $data = $user->getUserlist();
+        if ($request->isMethod('get')) {
+            if($user_id != '') { //kalo user id nya ada di link
+                $user_data = Users::where('user_id', $user_id)->get()->toArray();
+                if($user_data != NULL){ //kalo user id nya ada di database
+                    //view profile page only
+                    return view('users/edit', ['user_id'=>$user_id, 'userdata'=>$user_data]);
+                } else { //kalo user id nya ga ada di database
+                    return redirect()->route('users')->with("errormessage", "レコードが見つかりません");
+                }
+            } else { //kalo user id nya ga ada di link
+                return view('users/users', ['userlist'=>$data]);
+            }
         } 
         if($request->isMethod('post')) {
             $input = $request->input();

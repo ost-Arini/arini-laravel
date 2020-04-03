@@ -1,3 +1,4 @@
+{{-- {{dd($userdata)}} --}}
 @extends('layouts.app')
 
 @section('title')
@@ -12,28 +13,36 @@
                 <h1 class="text-center">マイページ</h1>
             </div>
 
+            @if(session()->has('errormessage'))
+              <div class="alert alert-danger text-center">
+                {{ session()->get('errormessage') }}
+              </div>
+            @endif
+
             <div class="card-body">
                 <table cellpadding='8'>
+                    @foreach($userdata as $item)
                     <tr>
                         <th class="text-right">ユーザ名</th>
-                        <td> {{ $users->user_name }} </td>
+                        <td> {{ $item['user_name'] }} </td>
                     </tr>
                     <tr>
                         <th class="text-right">メール</th>
-                        <td> {{ $users->email }} </td>
+                        <td> {{ $item['email'] }} </td>
                     </tr>
                     <tr>
                         <th class="text-right">名前</th>
-                        <td> {{ $users->real_name }} </td>
+                        <td> {{ $item['real_name'] }} </td>
                     </tr>
                     <tr>
                         <th class="text-right">生年月日</th>
-                        <td> {{ $users->birthday }} </td>
+                        <td> {{ $item['birthday'] }} </td>
                     </tr>
                     <tr>
                         <th class="text-right">性別</th>
-                        <td> {{ $users->gender == 1 ? '男性' : '女性' }} </td>
+                        <td> {{ $item['gender'] == 1 ? '男性' : '女性' }} </td>
                     </tr>
+                    @endforeach
                 </table>
             </div>
         </div>
